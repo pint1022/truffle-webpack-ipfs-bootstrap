@@ -1,0 +1,14 @@
+jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://192.168.0.210:7777\"]"
+jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://192.168.0.1:8888"]'
+jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
+jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]"
+
+
+//start ganache
+ganache-cli -h 192.168.0.210 -p 1234
+
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://192.168.0.210:8888\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://192.168.0.210\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://192.168.0.1:8888"]'
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]"

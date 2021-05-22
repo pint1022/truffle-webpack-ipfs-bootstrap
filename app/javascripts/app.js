@@ -23,7 +23,8 @@ var account;
 
 const ipfsAPI = require('ipfs-api');
 // const ipfs = ipfsAPI('localhost', '5001');
-const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'});
+//const ipfs = ipfsAPI('192.168.0.210', '5001', {protocol: 'https'});
+const ipfs = ipfsAPI('192.168.0.210', '5001');
 
 window.App = {
 
@@ -144,44 +145,34 @@ window.App = {
 
   },
 
-  start: function() {
+  start: async function() {
     var self = this;
 
-    ipfs.id(function(err, res) {
-      if (err) throw err
+    ipfs.id( async function(err, res) {
+      if (err) {
+         console.log("IPFS.id fails!");
+	     throw err
+	  }
       console.log("Connected to IPFS node!", res.id, res.agentVersion, res.protocolVersion);
     });
 
-    web3.eth.getAccounts(function(err, accs) {
-      if (err != null) {
-        alert("There was an error fetching your accounts.");
-        return;
-      }
+    accounts =  await ethereum.request({ method: 'eth_requestAccounts' });
+    account = accounts[0];
 
-      if (accs.length == 0) {
-        alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-        return;
-      }
+    // set the provider for the User abstraction
+    User.setProvider(web3.currentProvider);
 
-      accounts = accs;
-      account = accounts[0];
+    // show current address
+    var ethAddressIput = $('#sign-up-eth-address').val(accounts[0]);
 
-      // set the provider for the User abstraction
-      User.setProvider(web3.currentProvider);
-
-      // show current address
-      var ethAddressIput = $('#sign-up-eth-address').val(accounts[0]);
-
-      // trigger create user when sign up is clicked
-      var signUpButton = $('#sign-up-button').click(function() {
+    // trigger create user when sign up is clicked
+    var signUpButton = $('#sign-up-button').click(function() {
         self.createUser();
         return false;
-      });
+    });
 
-      // populate users
-      self.getUsers();
-
-    });  
+    // populate users
+    self.getUsers();
 
   },
 
@@ -228,15 +219,26 @@ window.App = {
 
 };
 
-window.addEventListener('load', function() {
+window.addEventListener('load', async function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-  if (typeof web3 !== 'undefined') {
-    console.warn("Using web3 detected from external source.");
-    // Use Mist/MetaMask's provider
-    window.web3 = new Web3(web3.currentProvider);
-  } else {
-    console.warn("No web3 detected. Please use MetaMask or Mist browser.");
-  }
+    if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        try {
+            // Request account access if needed
+//			accounts =  await ethereum.sendAsync('eth_requestAccounts');
+
+        } catch (error) {
+            // User denied account access...
+        }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+    }
+    // Non-dapp browsers...
+    else {
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+    }
 
   App.start();
 

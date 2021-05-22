@@ -1,6 +1,6 @@
 {
   "name": "truffle-init-webpack",
-  "version": "0.0.2",
+  "version": "3.11.2",
   "description": "Frontend example using truffle v3",
   "scripts": {
     "lint": "eslint ./",
@@ -35,8 +35,9 @@
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+	"graceful-fs": "4.2.2",
     "boostrap": "^2.0.0",
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^5.0.0",
     "ipfs-api": "^19.0.0",
     "jquery": "^3.3.1",
     "node-sass": "^4.8.3",
