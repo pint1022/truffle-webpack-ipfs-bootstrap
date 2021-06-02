@@ -25,6 +25,7 @@ const ipfsAPI = require('ipfs-api');
 // const ipfs = ipfsAPI('localhost', '5001');
 //const ipfs = ipfsAPI('192.168.0.210', '5001', {protocol: 'https'});
 const ipfs = ipfsAPI('192.168.0.210', '5001');
+//const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'});
 
 window.App = {
 
@@ -53,7 +54,9 @@ window.App = {
       console.log('ipfsHash:', ipfsHash = web3.toAscii(_ipfsHash), i);
 
       if(ipfsHash != 'not-available') {
-        var url = 'https://ipfs.io/ipfs/' + ipfsHash;
+//        var url = 'https://ipfs.io/ipfs/' + ipfsHash;
+//        var url = 'http://127.0.0.1:8080/ipfs/' + ipfsHash;
+        var url = 'http://192.168.0.210:8080/ipfs/' + ipfsHash;
         console.log('getting user info from', url);
 
         $.getJSON(url, function(userJson) {
@@ -155,15 +158,19 @@ window.App = {
 	  }
       console.log("Connected to IPFS node!", res.id, res.agentVersion, res.protocolVersion);
     });
+    
+    //web3.eth.getAccounts(console.log);
 
     accounts =  await ethereum.request({ method: 'eth_requestAccounts' });
     account = accounts[0];
 
     // set the provider for the User abstraction
     User.setProvider(web3.currentProvider);
+    console.log(accounts);
 
     // show current address
     var ethAddressIput = $('#sign-up-eth-address').val(accounts[0]);
+    console.log("before signup!");
 
     // trigger create user when sign up is clicked
     var signUpButton = $('#sign-up-button').click(function() {
@@ -172,7 +179,9 @@ window.App = {
     });
 
     // populate users
+    console.log("before getUsers!");
     self.getUsers();
+    console.log("after getUsers!");
 
   },
 
@@ -225,8 +234,6 @@ window.addEventListener('load', async function() {
         window.web3 = new Web3(ethereum);
         try {
             // Request account access if needed
-//			accounts =  await ethereum.sendAsync('eth_requestAccounts');
-
         } catch (error) {
             // User denied account access...
         }

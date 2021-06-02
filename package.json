@@ -5,7 +5,10 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "start:kovan": "concurrently \"npm run ganache:kovan\" \"npm run migrate\"",
+    "ganache:kovan": "npm run ganache -- --fork \"https://kovan.infura.io/v3/$INFURA_PROJECT_ID\""
+
   },
   "author": "Douglas von Kohorn",
   "license": "MIT",

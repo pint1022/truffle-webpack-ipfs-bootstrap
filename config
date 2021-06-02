@@ -10,14 +10,14 @@
         "GET"
       ],
       "Access-Control-Allow-Origin": [
-        "http://192.168.0.210"
+        "http://192.168.0.210:8888"
       ]
     }
   },
   "Addresses": {
-    "API": "/ip4/127.0.0.1/tcp/5001",
+    "API": "/ip4/0.0.0.0/tcp/5001",
     "Announce": [],
-    "Gateway": "/ip4/127.0.0.1/tcp/9090",
+    "Gateway": "/ip4/192.168.0.210/tcp/8080",
     "NoAnnounce": [],
     "Swarm": [
       "/ip4/0.0.0.0/tcp/4001",
